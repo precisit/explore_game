@@ -16,7 +16,7 @@ function ExampleCtrl($window) {
 	// Create one instance of our game
 	var gameEngine = new GameEngine($window);
 
-	// Add some objects into game
+	// Add some objects into game - TODO: Get from lambda
 	for(var i = 0; i < 10; i++) {
 		gameEngine.addGenericObject('generic', uuid.v4(), Math.random()*1920, Math.random()*1080);
 	}

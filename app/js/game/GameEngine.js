@@ -81,9 +81,10 @@ Game.prototype.loop = function() {
 
 
 	// Check for collisions
-	var bBox = this.player.elem[0][0].getBoundingClientRect();
-	this.playerBBox.x = bBox.left;
-	this.playerBBox.y = bBox.top;
+	var bBox = this.player.elemEl.getBoundingClientRect();
+	var viewElBox = this.viewEl.getBoundingClientRect(); // Game window can be resized between frames.
+	this.playerBBox.x = bBox.left - viewElBox.left;
+	this.playerBBox.y = bBox.top - viewElBox.top;
 	this.playerBBox.width = bBox.width;
 	this.playerBBox.height = bBox.height; 
 	var hitList = this.viewEl.getIntersectionList(this.playerBBox, this.mainLayerEl);

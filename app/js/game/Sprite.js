@@ -4,6 +4,7 @@
 
 var Sprite = function(elem, x, y, vx, vy, id) {
 	this.elem = elem;
+	this.elemEl = elem[0][0];
 	this.pos = [x || 0, y || 0];
 	this.oldPos = [x || 0, y || 0];
 	this.vel = [vx || 0, vy || 0];
