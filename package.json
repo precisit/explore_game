@@ -73,6 +73,7 @@
     "run-sequence": "^0.3.6",
     "tiny-lr": "0.0.9",
     "uglifyify": "^2.5.0",
+    "uuid": "^2.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^0.1.1",
     "watchify": "^2.0.0"
