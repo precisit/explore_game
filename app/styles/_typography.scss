@@ -1,0 +1,75 @@
+p {
+  margin-bottom: 1em;
+  font-family: $san-serif;
+  font-size: $font-size--xs;
+  font-weight: 300;
+}
+
+.heading {
+  margin-bottom: 0.618em;
+
+  &.-jumbo {
+    font-size: 200px;
+    font-weight: 100;
+    line-height: $full-space * 3 / 2;
+    font-family: $san-serif-game-brand;
+    letter-spacing: 0.25em;
+  }
+
+  &.-xlarge {
+    font-size: $font-size--xl;
+    font-weight: 200;
+    line-height: $full-space * 3 / 2;
+    font-family: $san-serif-brand;
+    letter-spacing: 0.015em;
+  }
+
+  &.-large {
+    font-size: $font-size--lg;
+    font-weight: normal;
+    line-height: $full-space * 3 / 2;
+    font-family: $san-serif-brand;
+  }
+
+  &.-medium {
+    font-size: $font-size--md;
+    font-weight: normal;
+    line-height: $half-space;
+    font-family: $san-serif-brand;
+  }
+
+  &.-small {
+    font-size: $font-size--sm;
+    font-weight: bold;
+    line-height: $half-space * 2 / 3;
+    font-family: $san-serif-brand;
+  }
+
+  &.-smallest {
+    font-size: $font-size--xs;
+    font-weight: bold;
+    font-family: $san-serif-brand;
+  }
+}
+
+h1 {
+  @extend .heading.-xlarge;
+}
+
+h2 {
+  @extend .heading.-large;
+}
+
+h3 {
+  @extend .heading.-medium;
+}
+
+h4 {
+  @extend .heading.-small;
+}
+
+h5 {
+  @extend .heading.-smallest;
+}
+
+
