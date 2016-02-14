@@ -1,3 +1,4 @@
+'use strict';
 
 // Class for sprites or objects
 // Position and Velocity as well as link to DOM
@@ -13,8 +14,8 @@ var Sprite = function(elem, x, y, vx, vy, id) {
 };
 
 Sprite.prototype.setVel = function(vel) {
-	this.vel = [vel[0] || 0, vel[1] || 0]
-}
+	this.vel = [vel[0] || 0, vel[1] || 0];
+};
 
 Sprite.prototype.update = function(dT) {
 	for (var index in [0, 1]) {
@@ -23,19 +24,19 @@ Sprite.prototype.update = function(dT) {
 	}
 
 	this.elem.attr('transform', 'translate('+this.pos.join(',')+')');
-}
+};
 
-Sprite.prototype.undoUpdate = function() {
+Sprite.prototype.undoUpdate = function() { // May be useful for blocking collisions
 	for (var index in [0, 1]) {
 		this.pos[index] = this.oldPos[index];
 	}
 
 	this.elem.attr('transform', 'translate('+this.pos.join(',')+')');
-}
+};
 
 Sprite.prototype.remove = function() {
 	this.elem.remove();
 	this.removeFlag = true; // Mark for removal
-}
+};
 
 module.exports = Sprite;

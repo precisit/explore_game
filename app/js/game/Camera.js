@@ -1,3 +1,4 @@
+'use strict';
 // Camera class for handling translation of camera + UI text (score, inventory, etc)
 
 var LIMIT = 260; // Buffer to edge to trigger camera move
@@ -19,7 +20,7 @@ var Camera = function(view, player) {
 	this.ui = this.view.append('g'); // NOTE: Must be added after other groups to be on top 
 	this.scoreText = this.ui.append('text').attr('x', 10).attr('y', 30).attr('class', 'score');
 	this.fpsText = this.ui.append('text').attr('x', 2*this.halfSize[0]-10).attr('y', 2*this.halfSize[1]-10).attr('class', 'fps');
-}
+};
 
 Camera.prototype.update = function(dT) {
 	this.frameCount += 1;
@@ -42,14 +43,14 @@ Camera.prototype.update = function(dT) {
 
 	// Update FPS
 	this.fpsTime += dT;
-	if(this.frameCount % 20 == 0) { // Update FPS every 0.33 sec
+	if(this.frameCount % 20 === 0) { // Update FPS every 0.33 sec
 		this.fps = Math.round(20/this.fpsTime);
 		this.fpsTime = 0;
 	}
 
 	// Update text & icons in UI
-	this.scoreText.text(this.player.score);
+	this.scoreText.text('Score: ' + this.player.score + ' [' + this.player.sector.join(',')+']');
 	this.fpsText.text(this.fps);
-}
+};
 
 module.exports = Camera;

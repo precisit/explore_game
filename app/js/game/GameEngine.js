@@ -1,8 +1,9 @@
+'use strict';
+
 var events = require('events');
 var d3 = require('d3');
 
 // Game dependencies
-var Sprite = require('./Sprite');
 var GameObject = require('./GameObject');
 var Camera = require('./Camera');
 var Player = require('./Player');
@@ -49,7 +50,7 @@ Game.prototype.addGenericObject = function(type, objId, x, y) {
 	this.objectMap[objId] = object;
 	object.update(0);
 	return object;
-}
+};
 
 Game.prototype.loop = function() {
 	this.window.requestAnimationFrame(this.loop.bind(this));
@@ -61,11 +62,11 @@ Game.prototype.loop = function() {
 
 
 	// Get gamePad input and update player velocity - TODO: Add hotset w. multiple game-pads (Low prio)
-	var gamePad = navigator.getGamepads()[0]
+	var gamePad = navigator.getGamepads()[0];
 	var vel = [
 		Math.abs(gamePad.axes[2]) < 0.15 ? 0 : gamePad.axes[2]*500, 
 		Math.abs(gamePad.axes[3]) < 0.15 ? 0 : gamePad.axes[3]*500
-	]
+	];
 	this.player.setVel(vel);
 
 
@@ -77,7 +78,12 @@ Game.prototype.loop = function() {
 		else {
 			object.update(dT);
 		}
-	})
+	});
+
+
+	// Check & trigger for new area on map
+	var newSector = this.player.checkSector();
+	if(newSector) { this.emit('sector', newSector); }
 
 
 	// Check for collisions
@@ -89,15 +95,16 @@ Game.prototype.loop = function() {
 	this.playerBBox.height = bBox.height; 
 	var hitList = this.viewEl.getIntersectionList(this.playerBBox, this.mainLayerEl);
 	for (var i = 0; i < hitList.length; i++) {
-		if(hitList[i] != this.player.elem[0][0] && hitList[i].id && this.objectMap[hitList[i].id]) {
+		if(hitList[i] !== this.player.elem[0][0] && hitList[i].id && this.objectMap[hitList[i].id]) {
 			this.emit('collision', this.objectMap[hitList[i].id]); // Emit collision event with game-object that was hit
 			this.objectMap[hitList[i].id].remove();
 		}
 	}
 
+
 	// Update camera
 	this.camera.update(dT);
-}
+};
 
 module.exports = Game;
 

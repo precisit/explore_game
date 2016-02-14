@@ -30,7 +30,12 @@ function ExampleCtrl($window) {
 
 		// Also just for fun, add static score 1 when object is hit
 		gameEngine.player.score += 1;
-	})
+	});
+
+	// Act on player moving into new sector
+	gameEngine.on('sector', function(newSector) {
+		console.log('Player just moved into sector', newSector); // TODO: Get sector data from lambda + populate objects, etc as needed.
+	});
 
 	// Start the game loop
 	gameEngine.loop();
