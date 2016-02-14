@@ -62,12 +62,17 @@ Game.prototype.loop = function() {
 
 
 	// Get gamePad input and update player velocity - TODO: Add hotset w. multiple game-pads (Low prio)
-	var gamePad = navigator.getGamepads()[0];
-	var vel = [
-		Math.abs(gamePad.axes[2]) < 0.15 ? 0 : gamePad.axes[2]*500, 
-		Math.abs(gamePad.axes[3]) < 0.15 ? 0 : gamePad.axes[3]*500
-	];
-	this.player.setVel(vel);
+	try {
+		var gamePad = navigator.getGamepads()[0];
+		var vel = [
+			Math.abs(gamePad.axes[2]) < 0.15 ? 0 : gamePad.axes[2]*500, 
+			Math.abs(gamePad.axes[3]) < 0.15 ? 0 : gamePad.axes[3]*500
+		];
+		this.player.setVel(vel);		
+	}
+	catch (e) {
+		console.error('No gamepad found! Connect one and press a button.');
+	}
 
 
 	// Update all sprites
