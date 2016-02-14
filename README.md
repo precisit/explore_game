@@ -18,3 +18,13 @@ Planned Features:
 - "Chaos" / Real-time time-objects
   - E.g. Other players (WebRTC DC or WS?)
 
+## Getting started
+
+Check out repo, install dependencies using npm:
+
+	npm install
+
+Run development environment: 
+
+	gulp dev
+
