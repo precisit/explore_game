@@ -21,7 +21,21 @@
   <body>
 
       <div ui-view></div>
-
+      
+      <!--AWS Lambda-->
+      <script type="text/javascript" src="lambda_SDK/lib/axios/dist/axios.standalone.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/CryptoJS/rollups/sha256.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/CryptoJS/components/hmac.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/CryptoJS/components/enc-base64.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/moment/moment.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/url-template/url-template.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/apiGatewayCore/sigV4Client.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/apiGatewayCore/apiGatewayClient.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/apiGatewayCore/simpleHttpClient.js"></script>
+      <script type="text/javascript" src="lambda_SDK/lib/apiGatewayCore/utils.js"></script>
+      <script type="text/javascript" src="lambda_SDK/apigClient.js"></script>
+      
       <script src="js/main.js"></script>
   </body>
 </html>

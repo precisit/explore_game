@@ -6,6 +6,15 @@ var uuid = require('uuid');
 
 var GameEngine = require('../game/GameEngine');
 
+var apigClient = apigClientFactory.newClient({
+    region: 'us-west-2'
+});
+
+var params = {};
+var additionalParams = {};
+var body = {
+    //item: 'malin'
+ };
 /**
  * @ngInject
  */
@@ -24,6 +33,17 @@ function ExampleCtrl($window) {
 	// Act on callback when Object is hit
 	gameEngine.on('collision', function(object) {
 		console.log('Hit with object type ' + object.type, object);
+
+		
+
+		apigClient.todoDynamodbGet(params, body, additionalParams)
+		.then(function(result){
+          //This is where you would put a success callback
+          console.log(result)
+      	}).catch( function(result){
+          //This is where you would put an error callback
+          console.log(result);
+      	});
 
 		// Just for fun - add new object to scene (TODO: Get from lambda + add different types for player <-> player trading)
 		gameEngine.addGenericObject('generic', uuid.v4(), Math.random()*1920, Math.random()*1080);

@@ -37,6 +37,11 @@ module.exports = {
     'dest': 'app/js'
   },
 
+  'lambda_SDK': {
+    'src': 'app/lambda_SDK/**/*',
+    'dest': 'build/lambda_SDK'
+  },
+
   'gzip': {
     'src': 'build/**/*.{html,xml,json,css,js,js.map,css.map}',
     'dest': 'build/',
