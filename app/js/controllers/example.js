@@ -12,9 +12,7 @@ var apigClient = apigClientFactory.newClient({
 
 var params = {};
 var additionalParams = {};
-var body = {
-    //item: 'malin'
- };
+var body = {};
 /**
  * @ngInject
  */
@@ -32,14 +30,18 @@ function ExampleCtrl($window) {
 
 	// Act on callback when Object is hit
 	gameEngine.on('collision', function(object) {
+		var newScore;
 		console.log('Hit with object type ' + object.type, object);
 
 		
 
-		apigClient.todoDynamodbGet(params, body, additionalParams)
+		apigClient.gameGet(params, body, additionalParams)
 		.then(function(result){
           //This is where you would put a success callback
-          console.log(result)
+          console.log(result.data);
+          console.log(typeof result.data);
+          newScore = result.data;
+          gameEngine.player.score += newScore;
       	}).catch( function(result){
           //This is where you would put an error callback
           console.log(result);
@@ -49,7 +51,7 @@ function ExampleCtrl($window) {
 		gameEngine.addGenericObject('generic', uuid.v4(), Math.random()*1920, Math.random()*1080);
 
 		// Also just for fun, add static score 1 when object is hit
-		gameEngine.player.score += 1;
+		
 	});
 
 	// Act on player moving into new sector
