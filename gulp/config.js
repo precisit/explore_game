@@ -42,6 +42,16 @@ module.exports = {
     'dest': 'build/lambda_SDK'
   },
 
+  'lambda_archive': {
+    'src': 'Lambda/',
+    'dest': 'build/archives/'
+  },
+
+  'lambda_zip': {
+    'src': 'build/archives/',
+    'dest': 'build/zip/',
+  },
+
   'gzip': {
     'src': 'build/**/*.{html,xml,json,css,js,js.map,css.map}',
     'dest': 'build/',
