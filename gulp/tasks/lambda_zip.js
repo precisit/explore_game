@@ -1,14 +1,16 @@
 'use strict';
 
-//zips the Lambda function folders
+//creates zip files for each Lambda function folder
 
 var gulp   = require('gulp');
 var zipdir = require('zip-dir');
 var config = require('../config');
 var fs = require('fs');
+var src = config.lambda_zip.temp;
+var dest = config.lambda_zip.dest;
 
 gulp.task('lambda_zip', function() {
-	var folders = fs.readdirSync(config.lambda_zip.src).filter(function(item){
+	var folders = fs.readdirSync(src).filter(function(item){
 		return item.substring(0,1) !== ".";  //remove folders staring with .
 	});
 	console.log(folders);
@@ -16,9 +18,9 @@ gulp.task('lambda_zip', function() {
 	//For each folder
 	folders.forEach(function(folder) {
 	  //make zip
-	  console.log(config.lambda_zip.src + folder + '/');
+	  console.log(src + folder + '/');
 
-	  zipdir(config.lambda_zip.src + folder + '/', { saveTo: config.lambda_zip.dest + folder + ".zip" }, function (err, buffer) {
+	  zipdir(src + folder + '/', { saveTo: dest + folder + ".zip" }, function (err, buffer) {
 	  	if (err) return console.error(err)
 	  	console.log('zip success!');
 	  })

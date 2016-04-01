@@ -1,5 +1,5 @@
 'use strict';
-
+//move Lambda sdk files to build folder
 var config      = require('../config');
 var changed     = require('gulp-changed');
 var gulp        = require('gulp');

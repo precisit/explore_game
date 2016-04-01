@@ -1,13 +1,17 @@
 'use strict';
+//creates a folder for each Lambda function with js file and node modules
+
 var gulp   = require('gulp');
 var config = require('../config');
 var fs = require('fs-extra');
 var path = require('path');
 var onlyScripts = require('../util/scriptFilter');
 var functionExtractor = require("function-extractor");
+var src = config.lambda_zip.src;
+var dest = config.lambda_zip.temp;
 
 gulp.task('lambda_archives', function() {
-	var files = fs.readdirSync(config.lambda_archive.src).filter(onlyScripts);
+	var files = fs.readdirSync(src).filter(onlyScripts);
 
 	var filename;
 	var funcNames;
@@ -20,25 +24,25 @@ gulp.task('lambda_archives', function() {
 	  //console.log(filename);
 
 	  
-	  funcNames = getFunctionNames(config.lambda_archive.src + "/" + file)
+	  funcNames = getFunctionNames(src + "/" + file)
 	  //for each function
 	  funcNames.forEach(function(funcName){
 
 	  	//create folder
-	  	folder = config.lambda_archive.dest + filename + "." + funcName;
+	  	folder = dest + filename + "." + funcName;
 	  	fs.mkdirs(folder, function (error) {
 	  		if (error) return console.error(error)
 	  		//console.log("success!")
 		});  	
 
 		//move node_modules
-		fs.copy(config.lambda_archive.src + "/node_modules", folder + "/node_modules", function (err) {
+		fs.copy(src + "/node_modules", folder + "/node_modules", function (err) {
 	  		if (err) return console.error(err)
 	  		//console.log('success!');
 		})
 
 	  	//move js file
-	  	fs.copy(config.lambda_archive.src + "/" + file, folder + "/" + file, function (error) {
+	  	fs.copy(src + "/" + file, folder + "/" + file, function (error) {
 	  		if (error) return console.error(error)
 	  		//console.log("success!")
 		});
@@ -46,9 +50,9 @@ gulp.task('lambda_archives', function() {
 		
 	});
 });
+
 //returns list of all function names in file
 function getFunctionNames(file){
-	//TODO: make this function
     var source = fs.readFileSync(file, "utf8")
     var functions = functionExtractor.parse(source);
     //console.log(functions);
@@ -58,6 +62,6 @@ function getFunctionNames(file){
     	if(func.namespace === 'exports')
     	functionNames.push(func.name);
     });
-    //console.log(functionNames);
+    console.log(functionNames);
 	return functionNames;
 }
