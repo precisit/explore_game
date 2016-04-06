@@ -5,63 +5,58 @@ var gulp   = require('gulp');
 var config = require('../config');
 var fs = require('fs-extra');
 var path = require('path');
+var gulpIgnore = require('gulp-ignore');
+var Q = require("q");
 var onlyScripts = require('../util/scriptFilter');
 var functionExtractor = require("function-extractor");
 var src = config.lambda_zip.src;
 var dest = config.lambda_zip.temp;
+var filename;
+var funcNames;
+var folder;
 
 gulp.task('lambda_archives', function() {
-	var files = fs.readdirSync(src).filter(onlyScripts);
 
+var promises = [];
+var files = fs.readdirSync(src).filter(onlyScripts);
+	var defer = Q.defer();
 	var filename;
 	var funcNames;
 	var folder;
 
 	//For each file
 	files.forEach(function(file) {
-	  //console.log(file);
 	  filename = path.basename(file, '.js');
-	  //console.log(filename);
-
-	  
 	  funcNames = getFunctionNames(src + "/" + file)
-	  //for each function
+
+	  //for each function in the file
 	  funcNames.forEach(function(funcName){
 
-	  	//create folder
-	  	folder = dest + filename + "." + funcName;
-	  	fs.mkdirs(folder, function (error) {
-	  		if (error) return console.error(error)
-	  		//console.log("success!")
-		});  	
+		folder = dest + filename + "." + funcName + "/";
+	  	var pipeline = gulp.src(src + "**/*")
+		.pipe(gulpIgnore.include(['node_modules/**/*', filename + ".js"]))
+		.pipe(gulp.dest(folder));
 
-		//move node_modules
-		fs.copy(src + "/node_modules", folder + "/node_modules", function (err) {
-	  		if (err) return console.error(err)
-	  		//console.log('success!');
-		})
-
-	  	//move js file
-	  	fs.copy(src + "/" + file, folder + "/" + file, function (error) {
-	  		if (error) return console.error(error)
-	  		//console.log("success!")
+		pipeline.on('end', function() {
+			defer.resolve();
 		});
+		promises.push(defer.promise);
 	  });
 		
 	});
+return Q.all(promises);
+
 });
 
 //returns list of all function names in file
 function getFunctionNames(file){
+	console.log("# " + file);
     var source = fs.readFileSync(file, "utf8")
     var functions = functionExtractor.parse(source);
-    //console.log(functions);
     var functionNames = [];
-
     functions.forEach(function(func) {
     	if(func.namespace === 'exports')
     	functionNames.push(func.name);
     });
-    console.log(functionNames);
 	return functionNames;
 }

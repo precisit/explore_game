@@ -46,9 +46,8 @@ module.exports = {
     'src': 'Lambda/',
     'temp': 'build/archives/',
     'dest': 'build/zip/',
-    'prefix': 'exploregame', //prefix that all Lambda functions start with. don't change!
-    'region': 'us-west-2',   //region for Lambda functions. don't change!
-    'role': 'XXXXX' //execution role for Lambda functions
+    'prefix': 'malin', 
+    'region': 'us-west-2',
   },
 
   'gzip': {

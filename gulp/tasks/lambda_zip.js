@@ -3,27 +3,22 @@
 //creates zip files for each Lambda function folder
 
 var gulp   = require('gulp');
-var zipdir = require('zip-dir');
+var zip   = require('gulp-zip');
+var foreach = require('gulp-foreach');
 var config = require('../config');
-var fs = require('fs');
 var src = config.lambda_zip.temp;
 var dest = config.lambda_zip.dest;
 
-gulp.task('lambda_zip', function() {
-	var folders = fs.readdirSync(src).filter(function(item){
-		return item.substring(0,1) !== ".";  //remove folders staring with .
-	});
-	console.log(folders);
 
-	//For each folder
-	folders.forEach(function(folder) {
-	  //make zip
-	  console.log(src + folder + '/');
+gulp.task('lambda_zip', ['lambda_archives'], function() {
 
-	  zipdir(src + folder + '/', { saveTo: dest + folder + ".zip" }, function (err, buffer) {
-	  	if (err) return console.error(err)
-	  	console.log('zip success!');
-	  })
+	return gulp.src(src + '*')
+	  .pipe(foreach(function(stream, file){
+	  	var fileName = file.path.substr(file.path.lastIndexOf("/")+1);
+        gulp.src(src+fileName+"/**/*")
+        .pipe(zip(fileName+".zip"))
+        .pipe(gulp.dest(dest));
 
-	});
+        return stream;
+	  }));
 });
