@@ -50,7 +50,6 @@ return Q.all(promises);
 
 //returns list of all function names in file
 function getFunctionNames(file){
-	console.log("# " + file);
     var source = fs.readFileSync(file, "utf8")
     var functions = functionExtractor.parse(source);
     var functionNames = [];
