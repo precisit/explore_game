@@ -28,6 +28,7 @@ function ExampleCtrl($window) {
 
 	// Get objects and players in zone 0,0 
 	//TODO: retrieve current zone
+	//TODO: retrieve current points
 
 
 	getItems([0,0,], gameEngine);
@@ -37,11 +38,20 @@ function ExampleCtrl($window) {
 		var newScore;
 		console.log('Hit with object type ' + object.type, object);
 
-		// Just for fun - add new object to scene (TODO: Get from lambda + add different types for player <-> player trading)
-		//gameEngine.addGenericObject('generic', uuid.v4(), Math.random()*1920, Math.random()*1080);
-
-		// Also just for fun, add static score 1 when object is hit
-		
+		body = {
+		  obj_id: object.id,
+		  user_id: currentPlayer
+		};
+		//update current zone in database
+		apigClient.collisionPost(params, body, additionalParams)
+		.then(function(result){
+          //This is where you would put a success callback
+          gameEngine.player.score = result.data;
+          console.log(result.data);
+      	}).catch( function(result){
+          //This is where you would put an error callback
+          console.log(result);
+      	});	
 	});
 
 	// Act on player moving into new sector

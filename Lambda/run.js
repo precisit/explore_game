@@ -1,8 +1,8 @@
 var AWS = require('aws-sdk');
 AWS.config.region = 'us-west-2';
 
-var lambda = require('./game.js');
 var enter = require('./enterZone.js');
+var collision = require ('./collision.js');
 
 AWS.config.region = 'us-west-2';
 
@@ -19,7 +19,6 @@ var context = {
 	}
 };
 
-//lambda.randomScore({}, context);
 
 var params = {
 	currentZone : {
@@ -35,4 +34,11 @@ var params = {
 //enter.getObjects(params, context);
 
 
-enter.getPlayers(params, context);
+//enter.getPlayers(params, context);
+
+params = {
+	obj_id: "6e817028-0f15-41e4-90d7-46f3f7ed6522",
+	user_id: "1ef0f041-c671-4615-9546-354c7ca1d4c0"
+};
+
+collision.objectCollision(params, context);
