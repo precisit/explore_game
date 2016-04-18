@@ -10,5 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "assert-plus": "^1.0.0"
+  },
+  "devDependencies": {
+    "dynamodb-doc": "^1.0.0",
+    "uuid": "^2.0.1"
   }
 }

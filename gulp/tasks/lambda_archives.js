@@ -17,8 +17,8 @@ var folder;
 
 gulp.task('lambda_archives', function() {
 
-var promises = [];
-var files = fs.readdirSync(src).filter(onlyScripts);
+	var promises = [];
+	var files = fs.readdirSync(src).filter(onlyScripts);
 	var defer = Q.defer();
 	var filename;
 	var funcNames;
@@ -44,7 +44,7 @@ var files = fs.readdirSync(src).filter(onlyScripts);
 	  });
 		
 	});
-return Q.all(promises);
+	return Q.all(promises);
 
 });
 

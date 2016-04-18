@@ -1,8 +1,7 @@
 var AWS = require('aws-sdk');
 AWS.config.region = 'us-west-2';
 
-var lambda = require('./game.js');
-var enter = require('./enterZone.js');
+var add = require('./add.js');
 
 AWS.config.region = 'us-west-2';
 
@@ -19,20 +18,29 @@ var context = {
 	}
 };
 
-//lambda.randomScore({}, context);
 
-var params = {
-	currentZone : {
+
+var newPlayer = {
+	name: "malin",
+	currentZone: {
 		x: 0,
 		y: 0
 	},
-	objects : ["first", "second"],
-	id: "1337"
-
+	position: {
+		x: 960,
+		y: 540
+	},
+	color: '#3366cc' 
 };
-//enter.saveCurrentZone(params, context);
 
-//enter.getObjects(params, context);
+add.addPlayer(newPlayer, context);
 
+var newObject = {
+	zone: {
+		x: 0,
+		y: 0
+	}
+}
 
-enter.getPlayers(params, context);
+//add.addObjects(newObject, context);
+//add.addObject(newObject, context);

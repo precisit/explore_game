@@ -46,7 +46,7 @@ module.exports = {
     'src': 'Lambda/',
     'temp': 'build/archives/',
     'dest': 'build/zip/',
-    'prefix': 'malin', 
+    'prefix': 'exploregame', 
     'region': 'us-west-2',
   },
 

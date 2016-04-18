@@ -38,12 +38,27 @@ var Game = function(window) {
 Game.prototype.__proto__ = events.EventEmitter.prototype; // Enable Game to emit events
 
 // External method to add objects to game
-Game.prototype.addGenericObject = function(type, objId, x, y) {
+Game.prototype.addGenericObject = function(type, objId, x, y, color) {
 	// TODO: Different style of item depending on type (SVG icon?)
 	var object = new GameObject(this.mainLayer.insert('rect')
 		.attr('height', 30)
 		.attr('width', 30)
-		.attr('fill', '#22AAFF')
+		.attr('fill', color)
+		.attr('id', objId),
+		x, y, 0, 0, objId, type);
+	this.objectArr.push(object);
+	this.objectMap[objId] = object;
+	object.update(0);
+	return object;
+};
+
+Game.prototype.addPlayer = function(type, objId, x, y, color) {
+	// TODO: Different style of item depending on type (SVG icon?)
+	var object = new GameObject(this.mainLayer.insert('circle')
+		.attr('cx',10)
+		.attr('cy',10)
+		.attr('r', 10)
+		.attr('fill', color)
 		.attr('id', objId),
 		x, y, 0, 0, objId, type);
 	this.objectArr.push(object);

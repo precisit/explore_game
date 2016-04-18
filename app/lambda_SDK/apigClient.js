@@ -52,18 +52,10 @@ apigClientFactory.newClient = function (config) {
     }
 
     
-    var endpoint = 'https://qhspcaoj5e.execute-api.us-west-2.amazonaws.com/prod';
-    var parser = document.createElement('a');
-    parser.href = endpoint;
-
-    //Use the protocol and host components to build the canonical endpoint
-    endpoint = parser.protocol + '//' + parser.host;
-
-    //Store any path components that were present in the endpoint to append to API calls
-    var pathComponent = parser.pathname;
-    if (pathComponent.charAt(0) !== '/') { // IE 9
-        pathComponent = '/' + pathComponent;
-    }
+    // extract endpoint and path from url
+    var invokeUrl = 'https://er0okdz7mb.execute-api.us-west-2.amazonaws.com/prod';
+    var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
+    var pathComponent = invokeUrl.substring(endpoint.length);
 
     var sigV4ClientConfig = {
         accessKey: config.accessKey,
@@ -91,147 +83,147 @@ apigClientFactory.newClient = function (config) {
     
     
     
-    apigClient.gameGet = function (params, body, additionalParams) {
+    apigClient.addObjectsPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var gameGetRequest = {
-            verb: 'get'.toUpperCase(),
-            path: pathComponent + uritemplate('/game').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(gameGetRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.gameOptions = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var gameOptionsRequest = {
-            verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/game').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(gameOptionsRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.helloPost = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var helloPostRequest = {
+        var addObjectsPostRequest = {
             verb: 'post'.toUpperCase(),
-            path: pathComponent + uritemplate('/hello').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/addObjects').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(helloPostRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(addObjectsPostRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.helloOptions = function (params, body, additionalParams) {
+    apigClient.addObjectsOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var helloOptionsRequest = {
+        var addObjectsOptionsRequest = {
             verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/hello').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/addObjects').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(helloOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(addObjectsOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.todoDynamodbGet = function (params, body, additionalParams) {
+    apigClient.retrievePlayersPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var todoDynamodbGetRequest = {
-            verb: 'get'.toUpperCase(),
-            path: pathComponent + uritemplate('/todo-dynamodb').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(todoDynamodbGetRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.todoDynamodbPost = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var todoDynamodbPostRequest = {
+        var retrievePlayersPostRequest = {
             verb: 'post'.toUpperCase(),
-            path: pathComponent + uritemplate('/todo-dynamodb').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/retrievePlayers').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(todoDynamodbPostRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(retrievePlayersPostRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.todoDynamodbPatch = function (params, body, additionalParams) {
+    apigClient.retrievePlayersOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var todoDynamodbPatchRequest = {
-            verb: 'patch'.toUpperCase(),
-            path: pathComponent + uritemplate('/todo-dynamodb').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(todoDynamodbPatchRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.todoDynamodbOptions = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var todoDynamodbOptionsRequest = {
+        var retrievePlayersOptionsRequest = {
             verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/todo-dynamodb').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/retrievePlayers').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(todoDynamodbOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(retrievePlayersOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.retriveObjectsPost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var retriveObjectsPostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/retriveObjects').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(retriveObjectsPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.retriveObjectsOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var retriveObjectsOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/retriveObjects').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(retriveObjectsOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.updateZonePost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var updateZonePostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/updateZone').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(updateZonePostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.updateZoneOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var updateZoneOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/updateZone').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(updateZoneOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 
