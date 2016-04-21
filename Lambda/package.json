@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "dynamodb-doc": "^1.0.0",
+    "hash-auth-token": "0.0.7",
     "uuid": "^2.0.1"
   }
 }

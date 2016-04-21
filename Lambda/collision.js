@@ -4,7 +4,7 @@ var assert = require('assert-plus');
 var DOC = require("dynamodb-doc");
 var dbClient = new DOC.DynamoDB();
 var OBJECTS = 'exploregame_objects';
-var USERS = 'exploregame_users';
+var USERS = 'exploregame_players';
 
 //Retrieves the score for an object
 //Adds score to player and returns total score
@@ -13,7 +13,7 @@ exports.objectCollision = function(event, context){
 		assert.object(event, 'event');
 		assert.object(context, 'context');
 		assert.string(event.obj_id, 'event.obj_id');
-		assert.string(event.user_id, 'event.user_id');
+		assert.string(event.username, 'event.username');
 	} catch (error) {
 		context.fail('Assert: ' + error.message);
 		return;
@@ -21,27 +21,25 @@ exports.objectCollision = function(event, context){
 
 	var reqObj = {
 		TableName: OBJECTS,
-		FilterExpression: "#key = :value",
-		ExpressionAttributeNames: {
-			"#key": "id"
-		},
-		ExpressionAttributeValues: {
-			":value": event.obj_id
+		Key: {
+			id: event.obj_id
 		}
 	};
 
-	dbClient.scan(reqObj, function(err, data) {
+	dbClient.getItem(reqObj, function(err, data) {
 		if (err) {
 			console.log(err.stack);
 			context.fail('Exception: ' + err.message)
+		}  else if (!data.Item) {
+	    	context.fail('Error: Bad obj_id (' + event.obj_id + ') , object does not exist');
 		} else {
 			//add score to player
-			var score = data.Items[0].score;
+			var score = data.Item.score;
 
 			var reqObj = {
 				TableName: USERS,
 				Key: {
-					id: event.user_id			
+					username: event.username			
 				},
 				UpdateExpression: "set score = score + :val1",
 				ExpressionAttributeValues:{

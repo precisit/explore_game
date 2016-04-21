@@ -14,24 +14,45 @@ var params = {};
 var additionalParams = {};
 var body = {};
 
-var currentPlayer = "1ef0f041-c671-4615-9546-354c7ca1d4c0";
+var currentPlayer = "malin";
 
 /**
  * @ngInject
  */
 function ExampleCtrl($window) {
-
-	//console.log(d3);
-
 	// Create one instance of our game
 	var gameEngine = new GameEngine($window);
 
-	// Get objects and players in zone 0,0 
-	//TODO: retrieve current zone
-	//TODO: retrieve current points
+	body = {
+		username: "malin",
+		password: "passw",
+	};
 
+	//login
+	apigClient.loginPost(params, body, additionalParams)
+	.then(function(result){
+		body = {
+			token: result.data.token
+		};
+		//get user info
+		apigClient.getUserPost(params, body, additionalParams)
+		.then(function(result){
+	        console.log(result.data);
+	        gameEngine.player.score = result.data.score;
 
-	getItems([0,0,], gameEngine);
+	        // Get objects and players in zone 0,0 
+			//TODO: change to current zone
+	        getItems([0,0,], gameEngine);
+	    }).catch( function(result){
+	        console.log(result.data);
+	    });
+    }).catch( function(result){
+        console.log(result);
+    });
+
+//	localStorage.setItem("token", "1234567");
+//	console.log(localStorage.getItem("token"));
+
 
 	// Act on callback when Object is hit
 	gameEngine.on('collision', function(object) {
@@ -39,18 +60,16 @@ function ExampleCtrl($window) {
 		console.log('Hit with object type ' + object.type, object);
 
 		body = {
-		  obj_id: object.id,
-		  user_id: currentPlayer
+		 	obj_id: object.id,
+		  	username: currentPlayer
 		};
 		//update current zone in database
 		apigClient.collisionPost(params, body, additionalParams)
 		.then(function(result){
-          //This is where you would put a success callback
-          gameEngine.player.score = result.data;
-          console.log(result.data);
+          	gameEngine.player.score = result.data;
+          	console.log(result.data);
       	}).catch( function(result){
-          //This is where you would put an error callback
-          console.log(result);
+          	console.log(result);
       	});	
 	});
 
@@ -58,7 +77,7 @@ function ExampleCtrl($window) {
 	gameEngine.on('sector', function(newSector) {
 		console.log('Player just moved into sector', newSector); // TODO: Get sector data from lambda + populate objects, etc as needed.
 		body = {
-		  id: currentPlayer,
+		  username: currentPlayer,
 		  currentZone: {
 		    x: newSector[0],
 		    y: newSector[1]
@@ -131,8 +150,8 @@ function getItems(zone, gameEngine){
 	  	for (var i = 0; i < result.data.length; i++){
 	  		var currentObject = result.data[i];
 	  		//remove current player from result
-	  		if(currentObject.id !== currentPlayer){
-      			gameEngine.addPlayer('generic', currentObject.id, currentObject.currentZone.x * 1920 + currentObject.position.x, currentObject.currentZone.y * 1080 + currentObject.position.y, currentObject.color);
+	  		if(currentObject.username !== currentPlayer){
+      			gameEngine.addPlayer('generic', currentObject.username, currentObject.currentZone.x * 1920 + currentObject.position.x, currentObject.currentZone.y * 1080 + currentObject.position.y, currentObject.color);
       		}
       	}
       

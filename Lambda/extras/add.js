@@ -4,7 +4,7 @@ var assert = require('assert-plus');
 var DOC = require("dynamodb-doc");
 var uuid = require('uuid');
 var dbClient = new DOC.DynamoDB();
-var USERS = 'exploregame_users';
+var USERS = 'exploregame_players';
 var OBJECTS = 'exploregame_objects';
 
 var color = [
@@ -39,8 +39,7 @@ exports.addPlayer = function(event, context){
 	var reqObj = {
 		TableName: USERS,
 		Item: {
-			id: uuid.v4(),
-			name: event.name,
+			username: event.name,
 			score: 0,
 			currentZone: event.currentZone,
 			position: event.position,

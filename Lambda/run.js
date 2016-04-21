@@ -3,6 +3,7 @@ AWS.config.region = 'us-west-2';
 
 var enter = require('./enterZone.js');
 var collision = require ('./collision.js');
+var login = require ('./login.js');
 
 AWS.config.region = 'us-west-2';
 
@@ -26,7 +27,7 @@ var params = {
 		y: 0
 	},
 	objects : ["first", "second"],
-	id: "1337"
+	username: "malin"
 
 };
 //enter.saveCurrentZone(params, context);
@@ -38,7 +39,29 @@ var params = {
 
 params = {
 	obj_id: "6e817028-0f15-41e4-90d7-46f3f7ed6522",
-	user_id: "1ef0f041-c671-4615-9546-354c7ca1d4c0"
+	username: "malin"
 };
 
-collision.objectCollision(params, context);
+//collision.objectCollision(params, context);
+
+
+params = {
+	username: 'malin',
+	password: 'passw'
+}
+
+//login.login(params, context);
+
+params = {
+	token: 'eyJ1c2VybmFtZSI6Im1hbGluIiwidmFsaWRUbyI6MTQ2MTIzOTE4ODU0N30=:c+LYqIO+By6pqOKbwPx66tvUHSYsaDjEN9i8guAYL4o=',
+	expiresIn: 3600
+}
+//login.get(params, context);
+
+
+/*
+var hashAuthToken = require('hash-auth-token')('super-secret-random-string');
+var token = hashAuthToken.generate({username: 'hello'}, 3600);
+var userObj = hashAuthToken.verify(token);
+console.log(userObj);
+*/

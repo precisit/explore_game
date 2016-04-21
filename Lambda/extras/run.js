@@ -35,6 +35,36 @@ var newPlayer = {
 
 add.addPlayer(newPlayer, context);
 
+newPlayer = {
+	name: "kajsabet",
+	currentZone: {
+		x: 0,
+		y: -1
+	},
+	position: {
+		x: 960,
+		y: 540
+	},
+	color: '#99ff99' 
+};
+
+add.addPlayer(newPlayer, context);
+
+newPlayer = {
+	name: "magnus",
+	currentZone: {
+		x: 1,
+		y: 0
+	},
+	position: {
+		x: 960,
+		y: 540
+	},
+	color: '#ff99ff' 
+};
+
+add.addPlayer(newPlayer, context);
+
 var newObject = {
 	zone: {
 		x: 0,

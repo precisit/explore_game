@@ -3,7 +3,7 @@
 var assert = require('assert-plus');
 var DOC = require("dynamodb-doc");
 var dbClient = new DOC.DynamoDB();
-var USERS = 'exploregame_users';
+var USERS = 'exploregame_players';
 var OBJECTS = 'exploregame_objects';
 var uuid = require('uuid');
 
@@ -27,7 +27,7 @@ exports.saveCurrentZone = function(event, context){
 	try {
 		assert.object(event, 'event');
 		assert.object(context, 'context');
-		assert.string(event.id, 'event.id');
+		assert.string(event.username, 'event.username');
 		assert.object(event.currentZone, 'event.currentZone');	
 	} catch (error) {
 		context.fail('Assert: ' + error.message);
@@ -37,7 +37,7 @@ exports.saveCurrentZone = function(event, context){
 	var reqObj = {
 		TableName: USERS,
 		Key: {
-			id: event.id			
+			username: event.username			
 		},
 		UpdateExpression: "set currentZone = :val1",
 		ExpressionAttributeValues:{
