@@ -106,10 +106,11 @@ controllersModule.controller('ExampleCtrl', ExampleCtrl);
 //Retrieves objects and players from the specified zone
 function getItems(zone, gameEngine){
 	body = {
-	  currentZone: {
-	    x: zone[0],
-	    y: zone[1]
-	  }
+		token: token,
+	  	currentZone: {
+	    	x: zone[0],
+	    	y: zone[1]
+	  	}
 	};
 
 	apigClient.retriveObjectsPost(params, body, additionalParams)

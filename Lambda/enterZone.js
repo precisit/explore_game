@@ -74,8 +74,18 @@ exports.getObjects = function(event, context){
 		assert.object(event, 'event');
 		assert.object(context, 'context');
 		assert.object(event.currentZone, 'event.currentZone');
+		assert.string(event.token, 'event.token');
 	} catch (error) {
 		context.fail('Assert: ' + error.message);
+		return;
+	}
+
+	var user;
+	try {
+		user = hashAuthToken.verify(event.token);
+	}
+	catch (e) {
+		context.fail('Error: Incorrect token (' + event.token + ')');
 		return;
 	}
 
@@ -106,8 +116,18 @@ exports.getPlayers = function(event, context){
 		assert.object(event, 'event');
 		assert.object(context, 'context');
 		assert.object(event.currentZone, 'event.currentZone');
+		assert.string(event.token, 'event.token');
 	} catch (error) {
 		context.fail('Assert: ' + error.message);
+		return;
+	}
+
+	var user;
+	try {
+		user = hashAuthToken.verify(event.token);
+	}
+	catch (e) {
+		context.fail('Error: Incorrect token (' + event.token + ')');
 		return;
 	}
 
