@@ -15,6 +15,9 @@ var additionalParams = {};
 var body = {};
 
 var currentPlayer = "malin";
+var token;
+//	localStorage.setItem("token", "1234567");
+//	console.log(localStorage.getItem("token"));
 
 /**
  * @ngInject
@@ -24,15 +27,16 @@ function ExampleCtrl($window) {
 	var gameEngine = new GameEngine($window);
 
 	body = {
-		username: "malin",
+		username: currentPlayer,
 		password: "passw",
 	};
 
 	//login
 	apigClient.loginPost(params, body, additionalParams)
 	.then(function(result){
+		token =  result.data.token;
 		body = {
-			token: result.data.token
+			token: token
 		};
 		//get user info
 		apigClient.getUserPost(params, body, additionalParams)
@@ -44,15 +48,11 @@ function ExampleCtrl($window) {
 			//TODO: change to current zone
 	        getItems([0,0,], gameEngine);
 	    }).catch( function(result){
-	        console.log(result.data);
+	        console.log(result);
 	    });
     }).catch( function(result){
         console.log(result);
     });
-
-//	localStorage.setItem("token", "1234567");
-//	console.log(localStorage.getItem("token"));
-
 
 	// Act on callback when Object is hit
 	gameEngine.on('collision', function(object) {
@@ -75,7 +75,7 @@ function ExampleCtrl($window) {
 
 	// Act on player moving into new sector
 	gameEngine.on('sector', function(newSector) {
-		console.log('Player just moved into sector', newSector); // TODO: Get sector data from lambda + populate objects, etc as needed.
+		console.log('Player just moved into sector', newSector);
 		body = {
 		  username: currentPlayer,
 		  currentZone: {
@@ -103,7 +103,7 @@ function ExampleCtrl($window) {
 
 controllersModule.controller('ExampleCtrl', ExampleCtrl);
 
-
+//Retrieves objects and players from the specified zone
 function getItems(zone, gameEngine){
 	body = {
 	  currentZone: {

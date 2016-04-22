@@ -60,7 +60,14 @@ exports.get = function(event, context) {
 		return;
 	}
 
-	var user = hashAuthToken.verify(event.token);
+	var user;
+	try {
+		user = hashAuthToken.verify(event.token);
+	}
+	catch (e) {
+		context.fail('Error: Incorrect token (' + event.token + ')');
+		return;
+	}
 
 	var reqObj = {
 		TableName: USERS,
