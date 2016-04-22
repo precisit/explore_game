@@ -5,6 +5,7 @@ var DOC = require("dynamodb-doc");
 var dbClient = new DOC.DynamoDB();
 var OBJECTS = 'exploregame_objects';
 var USERS = 'exploregame_players';
+var hashAuthToken = require('hash-auth-token')('long and random string');
 
 //Retrieves the score for an object
 //Adds score to player and returns total score
@@ -13,9 +14,18 @@ exports.objectCollision = function(event, context){
 		assert.object(event, 'event');
 		assert.object(context, 'context');
 		assert.string(event.obj_id, 'event.obj_id');
-		assert.string(event.username, 'event.username');
+		assert.string(event.token, 'event.token');
 	} catch (error) {
 		context.fail('Assert: ' + error.message);
+		return;
+	}
+
+	var user;
+	try {
+		user = hashAuthToken.verify(event.token);
+	}
+	catch (e) {
+		context.fail('Error: Incorrect token (' + event.token + ')');
 		return;
 	}
 
@@ -39,7 +49,7 @@ exports.objectCollision = function(event, context){
 			var reqObj = {
 				TableName: USERS,
 				Key: {
-					username: event.username			
+					username: user.username			
 				},
 				UpdateExpression: "set score = score + :val1",
 				ExpressionAttributeValues:{

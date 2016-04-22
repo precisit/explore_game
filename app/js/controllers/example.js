@@ -61,7 +61,7 @@ function ExampleCtrl($window) {
 
 		body = {
 		 	obj_id: object.id,
-		  	username: currentPlayer
+		  	token: token
 		};
 		//update current zone in database
 		apigClient.collisionPost(params, body, additionalParams)
