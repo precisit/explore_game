@@ -6,6 +6,7 @@ var dbClient = new DOC.DynamoDB();
 var USERS = 'exploregame_players';
 var OBJECTS = 'exploregame_objects';
 var uuid = require('uuid');
+var hashAuthToken = require('hash-auth-token')('long and random string');
 
 var color = [
 	{
@@ -27,17 +28,26 @@ exports.saveCurrentZone = function(event, context){
 	try {
 		assert.object(event, 'event');
 		assert.object(context, 'context');
-		assert.string(event.username, 'event.username');
+		assert.string(event.token, 'event.token');
 		assert.object(event.currentZone, 'event.currentZone');	
 	} catch (error) {
 		context.fail('Assert: ' + error.message);
 		return;
 	}
 
+	var user;
+	try {
+		user = hashAuthToken.verify(event.token);
+	}
+	catch (e) {
+		context.fail('Error: Incorrect token (' + event.token + ')');
+		return;
+	}
+
 	var reqObj = {
 		TableName: USERS,
 		Key: {
-			username: event.username			
+			username: user.username			
 		},
 		UpdateExpression: "set currentZone = :val1",
 		ExpressionAttributeValues:{

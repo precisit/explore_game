@@ -77,7 +77,7 @@ function ExampleCtrl($window) {
 	gameEngine.on('sector', function(newSector) {
 		console.log('Player just moved into sector', newSector);
 		body = {
-		  username: currentPlayer,
+		  token: token,
 		  currentZone: {
 		    x: newSector[0],
 		    y: newSector[1]
