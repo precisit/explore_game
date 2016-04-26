@@ -10,15 +10,15 @@ var src = config.lambda_zip.temp;
 var dest = config.lambda_zip.dest;
 require('es6-promise').polyfill();
 
-	var fn = function zipping(folder){
-		return new Promise (function(resolve, reject) {
-			gulp.src(src+folder+"/**/*")
-        	.pipe(zip(folder+".zip"))
-        	.on('error', reject)
-        	.pipe(gulp.dest(dest))
-        	.on('end', resolve)
-		});
-	}
+var fn = function zipping(folder){
+	return new Promise (function(resolve, reject) {
+		gulp.src(src+folder+"/**/*")
+        .pipe(zip(folder+".zip"))
+        .on('error', reject)
+        .pipe(gulp.dest(dest))
+        .on('end', resolve)
+	});
+}
 
 gulp.task('lambda_zip', /*['lambda_archives'],*/ function() {
 	var folders = fs.readdirSync(src).filter(function(item){

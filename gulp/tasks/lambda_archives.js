@@ -6,56 +6,54 @@ var config = require('../config');
 var fs = require('fs-extra');
 var path = require('path');
 var gulpIgnore = require('gulp-ignore');
-var Q = require("q");
 var onlyScripts = require('../util/scriptFilter');
 var functionExtractor = require("function-extractor");
 var src = config.lambda_zip.src;
 var dest = config.lambda_zip.temp;
-var filename;
-var funcNames;
-var folder;
+
+
+
 
 gulp.task('lambda_archives', function() {
-
-	var promises = [];
 	var files = fs.readdirSync(src).filter(onlyScripts);
-	var defer = Q.defer();
-	var filename;
-	var funcNames;
-	var folder;
 
-	//For each file
-	files.forEach(function(file) {
-	  filename = path.basename(file, '.js');
-	  funcNames = getFunctionNames(src + "/" + file)
+	var res = Promise.all(files.map(getnames))
+	.then(function(data){
+		var arr = data[0];
+		for(var i = 1; i < data.length; i++){
+			arr = arr.concat(data[i]);
+		}
+		return arr;
+		//return Promise.all(data.map(cp))
+	})
+	.then(function(data){
+		return Promise.all(data.map(cp))
+	})
 
-	  //for each function in the file
-	  funcNames.forEach(function(funcName){
-
-		folder = dest + filename + "." + funcName + "/";
-	  	var pipeline = gulp.src(src + "**/*")
-		.pipe(gulpIgnore.include(['node_modules/**/*', filename + ".js"]))
-		.pipe(gulp.dest(folder));
-
-		pipeline.on('end', function() {
-			defer.resolve();
-		});
-		promises.push(defer.promise);
-	  });
-		
-	});
-	return Q.all(promises);
-
+	return res;
 });
 
 //returns list of all function names in file
-function getFunctionNames(file){
-    var source = fs.readFileSync(file, "utf8")
+var getnames = function getFunctionNames(file){
+    var source = fs.readFileSync(src + "/" + file, "utf8")
     var functions = functionExtractor.parse(source);
     var functionNames = [];
     functions.forEach(function(func) {
     	if(func.namespace === 'exports')
-    	functionNames.push(func.name);
+    	functionNames.push({name: func.name, file: file});
     });
-	return functionNames;
+	return new Promise(resolve => resolve(functionNames));
+}
+
+//copies file and dependencies
+var cp = function copy(names){
+	var filename = path.basename(names.file, '.js');
+	var funcName = names.name;
+	return new Promise(function(resolve, reject){
+		gulp.src(src + "**/*")
+		.pipe(gulpIgnore.include(['node_modules/**/*', filename + ".js"]))
+		.on('error', reject)
+		.pipe(gulp.dest(dest + filename + "." + funcName + "/"))
+		.on('end', resolve)
+	})
 }

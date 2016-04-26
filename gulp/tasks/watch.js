@@ -12,5 +12,5 @@ gulp.task('watch', ['browserSync', 'server'], function() {
   gulp.watch(config.fonts.src,   ['fonts']);
   gulp.watch(config.views.watch, ['views']);
   gulp.watch(config.lambda_SDK.src, ['lambda_SDK']);
-  gulp.watch(config.lambda_zip.src + '**/*', ['lambda_upload']);
+  gulp.watch(config.lambda_zip.src + '**/*', ['lambda']);
 });
