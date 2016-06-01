@@ -60,7 +60,7 @@ exports.saveCurrentZone = function(event, context){
 	dbClient.updateItem(reqObj, function(err, data) {
 		if (err) {
 			console.log(err.stack);
-			context.fail('Error: Unknown internal error.')
+			context.fail('Exception: Unknown internal error.')
 		} else {
 			context.done(null, data.Attributes);
 		}

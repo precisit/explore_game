@@ -41,7 +41,7 @@ exports.objectCollision = function(event, context){
 			console.log(err.stack);
 			context.fail('Exception: ' + err.message)
 		}  else if (!data.Item) {
-	    	context.fail('Error: Bad obj_id (' + event.obj_id + ') , object does not exist');
+	    	context.fail('Assert: Bad obj_id (' + event.obj_id + ') , object does not exist');
 		} else {
 			//add score to player
 			var score = data.Item.score;
@@ -62,7 +62,7 @@ exports.objectCollision = function(event, context){
 			dbClient.updateItem(reqObj, function(err, data) {
 				if (err) {
 					console.log(err.stack);
-					context.fail('Error: Unknown internal error.')
+					context.fail('Exception: Unknown internal error.')
 				} else {
 					context.done(null, data.Attributes.score);
 				}
