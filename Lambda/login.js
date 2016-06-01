@@ -40,7 +40,7 @@ exports.login = function(event, context) {
 	    	context.fail(errorPhrase);
 		} else { 
 			if (password !== data.Item.password){
-				context.fail(errorPhrase + " " + password + " " + data.Item.password);
+				context.fail(errorPhrase);
 			} else {
 				var token = hashAuthToken.generate({username: username}, 3600); 
 				context.done(null, {token: token});
